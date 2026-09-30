@@ -13,6 +13,7 @@ const state = loadState() ?? {
   tab: 'form',
   palette: { id: 'musgo' },
 };
+replaceUntouchedExample(state);
 
 let jobText = '';
 let accentRgb = hexToRgb(resolvePalette(state.palette).color);
@@ -20,6 +21,23 @@ let accentRgb = hexToRgb(resolvePalette(state.palette).color);
 const currentCv = () => state.versions[Math.min(state.current, state.versions.length - 1)];
 const markdownOf = (cv) => (cv.source === 'md' ? cv.md : formToMarkdown(cv));
 const persist = () => saveState(state);
+
+// O exemplo fica marcado como "untouched" até a pessoa editar alguma coisa nele.
+// Enquanto estiver assim, ele é trocado pela versão atual do exemplo a cada visita.
+function replaceUntouchedExample(saved) {
+  const [example] = createExample();
+  saved.versions = saved.versions.map((cv) => (isUntouchedExample(cv) ? structuredClone(example) : cv));
+}
+
+function isUntouchedExample(cv) {
+  // Estados salvos antes da marcação existir: o exemplo antigo se chamava Ana Ribeiro.
+  const legacyExample = cv.id === 'exemplo' && cv.name === 'Ana Ribeiro' && cv.source === 'form';
+  return cv.untouched === true || legacyExample;
+}
+
+function markEdited(cv = currentCv()) {
+  delete cv.untouched;
+}
 
 const EMPTY_ITEM = {
   experience: { role: '', company: '', period: '', bullets: '' },
@@ -318,6 +336,7 @@ formPanel.addEventListener('input', (event) => {
   const { path } = event.target.dataset;
   if (!path) return;
   setAt(currentCv(), path, event.target.value);
+  markEdited();
   persist();
   scheduleRefresh();
   if (path === 'label') renderVersions();
@@ -326,6 +345,7 @@ formPanel.addEventListener('input', (event) => {
 formPanel.addEventListener('change', (event) => {
   if (event.target.dataset.path !== 'lang') return;
   currentCv().lang = event.target.value;
+  markEdited();
   persist();
   refresh();
 });
@@ -364,6 +384,7 @@ formPanel.addEventListener('click', (event) => {
       return;
   }
 
+  markEdited(cv);
   persist();
   renderForm();
   renderMarkdownPanel();
@@ -375,6 +396,7 @@ byId('md-input').addEventListener('input', (event) => {
   const wasForm = cv.source !== 'md';
   cv.source = 'md';
   cv.md = event.target.value;
+  markEdited(cv);
   persist();
   scheduleRefresh();
   if (wasForm) {
@@ -404,6 +426,7 @@ byId('md-file').addEventListener('change', async (event) => {
   const cv = currentCv();
   cv.source = 'md';
   cv.md = await file.text();
+  markEdited(cv);
   persist();
   renderForm();
   renderMarkdownPanel();
@@ -428,6 +451,7 @@ byId('version-select').addEventListener('change', (event) => {
 byId('duplicate-version').addEventListener('click', () => {
   const copy = structuredClone(currentCv());
   copy.id = `v${Date.now()}`;
+  markEdited(copy);
   copy.label = `${copy.label || 'Versão'} (cópia)`;
   state.versions.push(copy);
   state.current = state.versions.length - 1;

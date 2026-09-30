@@ -3,6 +3,7 @@ export function createExample() {
   return [
     {
       id: 'exemplo',
+      untouched: true,
       label: 'Exemplo',
       lang: 'pt',
       source: 'form',
