@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gerador de CV</title>
+  <meta name="description" content="Escreva seu currículo em formulário ou Markdown e baixe um PDF de uma página, legível por ATS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&family=Young+Serif&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <span class="brand">Currículo</span>
+
+      <div class="versions">
+        <select id="version-select" class="pill" aria-label="Versão do CV"></select>
+        <button id="duplicate-version" class="btn ghost" type="button">Duplicar</button>
+        <button id="delete-version" class="btn ghost" type="button">Excluir</button>
+      </div>
+
+      <div id="palette" class="palette" role="group" aria-label="Cor"></div>
+      <span id="page-meter" class="meter">…</span>
+      <button id="download-pdf" class="btn primary" type="button">Baixar PDF</button>
+    </header>
+
+    <main class="split">
+      <section class="editor" aria-label="Editor">
+        <nav class="tabs" role="tablist">
+          <button id="tab-form" class="tab" role="tab" type="button" data-tab="form">Formulário</button>
+          <button id="tab-md" class="tab" role="tab" type="button" data-tab="md">Markdown</button>
+          <button id="tab-job" class="tab" role="tab" type="button" data-tab="job">Comparar com vaga</button>
+        </nav>
+
+        <div id="panel-form" class="panel" role="tabpanel"></div>
+
+        <div id="panel-md" class="panel panel-md" role="tabpanel" hidden>
+          <div class="md-actions">
+            <button id="open-md" class="btn" type="button">Abrir .md</button>
+            <button id="save-md" class="btn" type="button">Baixar .md</button>
+            <button id="back-to-form" class="btn warn" type="button" hidden>Voltar ao formulário</button>
+          </div>
+          <p class="cheatsheet">
+            <code># Nome</code> <code>## Seção</code> <code>### Cargo — Empresa | Período</code>
+            <code>- item</code> <code>**negrito**</code> <code>*cinza*</code>
+          </p>
+          <textarea id="md-input" spellcheck="false" aria-label="Currículo em Markdown"></textarea>
+        </div>
+
+        <div id="panel-job" class="panel" role="tabpanel" hidden>
+          <div class="job">
+            <p>Cole a descrição da vaga. Em verde, o que já está no seu CV. Em vermelho, o que falta.</p>
+            <textarea id="job-input" rows="9" placeholder="Cole aqui o texto da vaga…"></textarea>
+            <div id="keywords" class="chips"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="desk" class="desk" aria-label="Prévia">
+        <div id="sheet-frame" class="sheet-frame">
+          <article id="sheet" class="sheet"></article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <input id="md-file" type="file" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
