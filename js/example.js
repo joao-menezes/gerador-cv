@@ -7,18 +7,18 @@ export function createExample() {
       lang: 'pt',
       source: 'form',
       md: '',
-      name: 'Ana Ribeiro',
-      title: 'Desenvolvedora Backend | Java • Spring Boot • AWS',
-      phone: '+55 (11) 90000-0000',
-      email: 'ana.ribeiro@email.com',
-      city: 'São Paulo, SP',
-      linkedin: 'linkedin.com/in/ana-ribeiro',
-      github: 'github.com/ana-ribeiro',
+      name: 'Tim Maia',
+      title: 'Desenvolvedor Backend | Java • Spring Boot • AWS',
+      phone: '+55 (21) 90000-0000',
+      email: 'tim.maia@email.com',
+      city: 'Rio de Janeiro, RJ',
+      linkedin: 'linkedin.com/in/tim-maia',
+      github: 'github.com/tim-maia',
       summary:
-        'Desenvolvedora Backend com 4 anos de experiência em Java e Spring Boot, construindo APIs e serviços para produtos de pagamentos e logística. Experiência com mensageria, bancos relacionais e infraestrutura na AWS. Inglês avançado.',
+        'Desenvolvedor Backend com 4 anos de experiência em Java e Spring Boot, construindo APIs e serviços para produtos de pagamentos e logística. Experiência com mensageria, bancos relacionais e infraestrutura na AWS. Inglês avançado.',
       experience: [
         {
-          role: 'Desenvolvedora Backend',
+          role: 'Desenvolvedor Backend',
           company: 'Empresa de Pagamentos',
           period: 'Mar/2023 – Atual',
           bullets: [
@@ -28,7 +28,7 @@ export function createExample() {
           ].join('\n'),
         },
         {
-          role: 'Desenvolvedora Júnior',
+          role: 'Desenvolvedor Júnior',
           company: 'Startup de Logística',
           period: 'Fev/2021 – Fev/2023',
           bullets: [
